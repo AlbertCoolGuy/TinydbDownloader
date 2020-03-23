@@ -39,8 +39,7 @@ def option():
     else:
         print("Invalid choice, try again.")
         option()
-
-option()
+        
 
 def download():
     ids = input("Choose app id(s) to download in a comma separated list:").replace(" ", "").split(",")
@@ -52,4 +51,7 @@ def download():
         except IndexError:
             print("Invalid id, try again.")
             download()
+            
+
+option()            
 download()
