@@ -34,8 +34,7 @@ def option():
     if choice.lower() == "l":
         list_all_apps()
     elif choice.lower() == "s":
-        search_string = input("Enter a string to search for:")
-        search_for_app(search_string)
+        search_for_app(input("Enter a string to search for:"))
     else:
         print("Invalid choice, try again.")
         option()
