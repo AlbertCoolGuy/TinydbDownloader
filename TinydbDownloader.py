@@ -30,8 +30,21 @@ def search_for_app(search):
                 pass
         else:
             pass
-   
-def option():
+
+def download():
+    ids = input("Choose app id(s) to download in a comma separated list or (Q)uit:").replace(" ", "").split(",")
+    for id in ids:
+        if id.isnumeric():
+            try:
+                download_url = json.loads(requests.get(f"{base_url}/apps?app_id={id}").text)[0]["cia"][-1]["download_url"]
+                cia_file = requests.get(download_url)
+                open(download_url.split("/")[-1], "wb").write(cia_file.content)
+            except IndexError:
+                print("Invalid id: {}".format(id))
+        else:
+            print("Invalid id: {}".format(id))
+
+def main():
     while True:   
         choice = input("What do you want to do? (L)ist all apps, (S)earch for a app or (Q)uit the program:")
         if choice.lower() == "l":
@@ -42,24 +55,8 @@ def option():
             download()
         elif choice.lower() == "q":
             print("Quitting")
-            break
+            quit()
         else:
             print("Invalid choice, try again.")
 
-def download():
-    while True:
-        ids = input("Choose app id(s) to download in a comma separated list:").replace(" ", "").split(",")
-        for id in ids:
-            if id.isnumeric():
-                    try:
-                        download_url = json.loads(requests.get(f"{base_url}/apps?app_id={id}").text)[0]["cia"][-1]["download_url"]
-                        cia_file = requests.get(download_url)
-                        open(download_url.split("/")[-1], "wb").write(cia_file.content)
-                    except IndexError:
-                        print("Invalid id, try again.")
-            else:
-                    print("Input is not a number.")
-            
-
-option()            
-download()
+main()
